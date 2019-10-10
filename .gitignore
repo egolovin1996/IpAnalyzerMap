@@ -1,3 +1,5 @@
 .idea
 IpAnalyzerMap.Web/bin
 IpAnalyzerMap.Web/obj
+.vs/
+*.user
