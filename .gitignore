@@ -3,3 +3,5 @@ IpAnalyzerMap.Web/bin
 IpAnalyzerMap.Web/obj
 .vs/
 *.user
+IpAnalyzerMap.ExternalProviders/obj/
+IpAnalyzerMap.ExternalProviders/bin/
