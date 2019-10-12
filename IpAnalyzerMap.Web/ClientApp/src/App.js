@@ -12,6 +12,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={FetchData} />
+        <Route exact path='/map/:ip' component={FetchData} />
       </Layout>
     );
   }
