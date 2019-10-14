@@ -25,13 +25,28 @@ namespace IpAnalyzerMap.Web.Controllers
             var providers = new List<ILocationProvider>
             {
                 new IpInfoLocationProvider(_httpClientFactory.CreateClient()),
-                new ShodanLocationProvider(_httpClientFactory.CreateClient())
+                new ShodanLocationProvider(_httpClientFactory.CreateClient()),
+                new MyIpLocationProvider(_httpClientFactory.CreateClient()),
             };
             var result = new List<object>();
 
             foreach (var provider in providers)
             {
-                var location = await provider.GetLocationByIp(ipAddress);
+                Location location = null;
+                try
+                {
+
+                    location = await provider.GetLocationByIp(ipAddress);
+                    
+                }
+                catch (Exception e)
+                {
+                    location = new Location()
+                    {
+                        Name = "Not found"
+                    };
+                }
+
                 result.Add(new
                 {
                     ProviderName = provider.Name,
