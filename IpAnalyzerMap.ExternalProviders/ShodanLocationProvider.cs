@@ -7,7 +7,7 @@ namespace IpAnalyzerMap.ExternalProviders
 {
     public class ShodanLocationProvider: BaseApiLocationProvider
     {
-        public override string Name => "Shodan";
+        public override string Name => "shodan.io";
 
         protected override string EndPart => "?key=UVbsoTHp2aLWrePvAdUPGYApIF39S8o4";
         protected override string BaseUrl => "https://api.shodan.io/shodan/host/";

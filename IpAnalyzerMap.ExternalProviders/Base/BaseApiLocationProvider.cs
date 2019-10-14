@@ -28,6 +28,7 @@ namespace IpAnalyzerMap.ExternalProviders.Base
         {
             var url = $"{BaseUrl}{ipAddress}{EndPart}";
 
+            var t = _httpClient.GetStringAsync(url).Result;
             var responseString = await _httpClient.GetStringAsync(url);
             var jsonResult = (JObject)JsonConvert.DeserializeObject(responseString);
 

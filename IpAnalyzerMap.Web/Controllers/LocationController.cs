@@ -27,6 +27,9 @@ namespace IpAnalyzerMap.Web.Controllers
                 new IpInfoLocationProvider(_httpClientFactory.CreateClient()),
                 new ShodanLocationProvider(_httpClientFactory.CreateClient()),
                 new MyIpLocationProvider(_httpClientFactory.CreateClient()),
+                new IpApiLocationProvider(_httpClientFactory.CreateClient()),
+                //new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
+                new IpDataLocationProvider(_httpClientFactory.CreateClient()),
             };
             var result = new List<object>();
 
@@ -35,9 +38,7 @@ namespace IpAnalyzerMap.Web.Controllers
                 Location location = null;
                 try
                 {
-
                     location = await provider.GetLocationByIp(ipAddress);
-                    
                 }
                 catch (Exception e)
                 {

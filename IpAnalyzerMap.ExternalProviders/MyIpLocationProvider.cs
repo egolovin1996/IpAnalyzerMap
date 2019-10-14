@@ -18,7 +18,7 @@ namespace IpAnalyzerMap.ExternalProviders
         private const string ApiKey = "965515633-1723940776-1014634067";
         private const string BaseUrl = "https://api.myip.ms";
 
-        public string Name => "MyIp";
+        public string Name => "myip.ms";
 
         private readonly HttpClient _httpClient;
 
