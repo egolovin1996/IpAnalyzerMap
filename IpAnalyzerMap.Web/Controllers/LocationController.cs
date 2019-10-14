@@ -30,6 +30,7 @@ namespace IpAnalyzerMap.Web.Controllers
                 new IpApiLocationProvider(_httpClientFactory.CreateClient()),
                 //new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
                 new IpDataLocationProvider(_httpClientFactory.CreateClient()),
+                new IpGeoLocationIOLocationProvider(),
             };
             var result = new List<object>();
 

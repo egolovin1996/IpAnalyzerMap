@@ -81,7 +81,7 @@ export class NavMenu extends Component {
                           type="text"
                           value={this.state.ipAddress}
                           onChange={this.handleChange}
-                          placeholder="192.168.100.100"
+                          placeholder="8.8.8.8"
                       />
                     </FormGroup>
                     <Button type="submit">Поиск</Button>
