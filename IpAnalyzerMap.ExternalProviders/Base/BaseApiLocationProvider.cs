@@ -28,8 +28,17 @@ namespace IpAnalyzerMap.ExternalProviders.Base
         {
             var url = $"{BaseUrl}{ipAddress}{EndPart}";
 
-            var t = _httpClient.GetStringAsync(url).Result;
-            var responseString = await _httpClient.GetStringAsync(url);
+            string responseString;
+            try
+            {
+                responseString = await _httpClient.GetStringAsync(url);
+            }
+            catch(InvalidOperationException)
+            {
+                var bytes = await _httpClient.GetByteArrayAsync(url);
+                responseString = Encoding.UTF8.GetString(bytes);
+            }
+            
             var jsonResult = (JObject)JsonConvert.DeserializeObject(responseString);
 
             return GetLocationFromJson(jsonResult);

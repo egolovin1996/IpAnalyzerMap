@@ -28,9 +28,12 @@ namespace IpAnalyzerMap.Web.Controllers
                 new ShodanLocationProvider(_httpClientFactory.CreateClient()),
                 new MyIpLocationProvider(_httpClientFactory.CreateClient()),
                 new IpApiLocationProvider(_httpClientFactory.CreateClient()),
-                //new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
+                new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
                 new IpDataLocationProvider(_httpClientFactory.CreateClient()),
                 new IpGeoLocationIOLocationProvider(),
+                new IpIfyLocationProvider(_httpClientFactory.CreateClient()),
+                new IpGeolocationApiLocationProvider(_httpClientFactory.CreateClient()),
+                new IpStackLocationProvider(_httpClientFactory.CreateClient()),
             };
             var result = new List<object>();
 

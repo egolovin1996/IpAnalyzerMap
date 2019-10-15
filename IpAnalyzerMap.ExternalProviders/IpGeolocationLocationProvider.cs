@@ -17,7 +17,7 @@ namespace IpAnalyzerMap.ExternalProviders
             string city = "";
             try
             {
-                city = jObject["country"].Value<string>();
+                city = jObject["city"].Value<string>();
             }
             catch
             {
