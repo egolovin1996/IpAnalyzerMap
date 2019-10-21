@@ -24,6 +24,7 @@ namespace IpAnalyzerMap.Web.Controllers
         {
             var providers = new List<ILocationProvider>
             {
+                new IpStackLocationProvider(_httpClientFactory.CreateClient()),
                 new IpInfoLocationProvider(_httpClientFactory.CreateClient()),
                 new ShodanLocationProvider(_httpClientFactory.CreateClient()),
                 new MyIpLocationProvider(_httpClientFactory.CreateClient()),
@@ -33,7 +34,6 @@ namespace IpAnalyzerMap.Web.Controllers
                 new IpGeoLocationIOLocationProvider(),
                 new IpIfyLocationProvider(_httpClientFactory.CreateClient()),
                 new IpGeolocationApiLocationProvider(_httpClientFactory.CreateClient()),
-                new IpStackLocationProvider(_httpClientFactory.CreateClient()),
             };
             var result = new List<object>();
 
