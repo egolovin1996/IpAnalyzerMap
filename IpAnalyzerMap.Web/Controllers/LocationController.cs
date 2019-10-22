@@ -27,7 +27,7 @@ namespace IpAnalyzerMap.Web.Controllers
                 new IpStackLocationProvider(_httpClientFactory.CreateClient()),
                 new IpInfoLocationProvider(_httpClientFactory.CreateClient()),
                 new ShodanLocationProvider(_httpClientFactory.CreateClient()),
-                new MyIpLocationProvider(_httpClientFactory.CreateClient()),
+                //new MyIpLocationProvider(_httpClientFactory.CreateClient()),
                 new IpApiLocationProvider(_httpClientFactory.CreateClient()),
                 new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
                 new IpDataLocationProvider(_httpClientFactory.CreateClient()),

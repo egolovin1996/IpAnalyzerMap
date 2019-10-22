@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
-import { Map } from "./Map";
+import { TableMap } from "./TableMap"
 
 export class Search extends Component {
     static displayName = Search.name;
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true };
+        this.state = { locations: [], loading: true };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,42 +25,11 @@ export class Search extends Component {
         }
     }
 
-    static renderForecastsTable(locations) {
+    static renderLocationsTable(locations) {
         return (
-            <div>
-                <Container>
-                    <Row>
-                        <Col xs="5">
-                            <table
-                                className="table table-striped"
-                                aria-labelledby="tabelLabel"
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>Api provider</th>
-                                        <th>Location Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {locations.map(location => (
-                                        <tr key={location.providerName}>
-                                            <td>{location.providerName}</td>
-                                            <td>{location.location.name}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Col>
-                        <Col>
-                            {" "}
-                            <Map
-                                latitude={locations[0].location.latitude}
-                                longitude={locations[0].location.longitude}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
+            <TableMap 
+                locations = {locations}
+            />
         );
     }
 
@@ -72,8 +40,8 @@ export class Search extends Component {
                 <em>Loading...</em>
             </p>
         ) : (
-                Search.renderForecastsTable(this.state.forecasts)
-            );
+            Search.renderLocationsTable(this.state.locations)
+        );
 
         return <div>{contents}</div>;
     }
@@ -83,6 +51,6 @@ export class Search extends Component {
         const ipAddress = this.props.match.params.ip || "8.8.8.8";
         const response = await fetch("api/location/getAllLocations/" + ipAddress);
         const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
+        this.setState({ locations: data, loading: false });
     }
 }

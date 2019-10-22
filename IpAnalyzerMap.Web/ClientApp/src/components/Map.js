@@ -1,13 +1,23 @@
-import React, { Component } from 'react';
-import { Map as LeafletMap, TileLayer, Marker } from 'react-leaflet';
+import React, { Component } from "react";
+import { Map as LeafletMap, TileLayer, Marker } from "react-leaflet";
 
 export class Map extends Component {
     render() {
-        return(
+        const locationsCount = this.props.locations.length;
+        const avrLat =
+            this.props.locations
+                .map(l => l.location.latitude)
+                .reduce((a, b) => a + b, 0) / locationsCount;
+        const avrLong =
+            this.props.locations
+                .map(l => l.location.longitude)
+                .reduce((a, b) => a + b, 0) / locationsCount;
+
+        return (
             <LeafletMap
-                center={[this.props.latitude, this.props.longitude]}
+                center={[avrLat, avrLong]}
                 zoom={2}
-                maxZoom={10}
+                maxZoom={12}
                 attributionControl={true}
                 zoomControl={true}
                 doubleClickZoom={true}
@@ -16,8 +26,13 @@ export class Map extends Component {
                 animate={true}
                 easeLinearity={0.35}
             >
-                <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'/>
-                <Marker position={[this.props.latitude, this.props.longitude]}/>
+                <TileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                {this.props.locations.map(location => (
+                    <Marker
+                        key={location.providerName}
+                        position={[location.location.latitude, location.location.longitude]}
+                    />
+                ))}
             </LeafletMap>
         );
     }
