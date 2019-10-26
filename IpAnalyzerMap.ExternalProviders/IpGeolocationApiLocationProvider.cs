@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using IpAnalyzerMap.ExternalProviders.Base;
 using IpAnalyzerMap.ExternalProviders.Models;
 using Newtonsoft.Json.Linq;
 
 namespace IpAnalyzerMap.ExternalProviders
 {
-    public class IpGeolocationApiLocationProvider : BaseApiLocationProvider
+    public class IpGeolocationApiLocationProvider : BaseApiBaseLocationProvider
     {
-        public override string Name => "ipgeolocationapi.com";
+        protected override string Name => "ipgeolocationapi.com";
 
         protected override string BaseUrl => "https://api.ipgeolocationapi.com/geolocate/";
 
@@ -23,7 +20,7 @@ namespace IpAnalyzerMap.ExternalProviders
             var jGeo = jObject["geo"];
             return new Location()
             {
-                Name = jObject["name"].Value<string>(),
+                Country = jObject["name"].Value<string>(),
                 Latitude = jGeo["latitude"].Value<double>(),
                 Longitude = jGeo["longitude"].Value<double>()
             };

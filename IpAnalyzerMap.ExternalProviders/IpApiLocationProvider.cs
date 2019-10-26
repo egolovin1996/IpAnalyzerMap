@@ -5,9 +5,9 @@ using Newtonsoft.Json.Linq;
 
 namespace IpAnalyzerMap.ExternalProviders
 {
-    public class IpApiLocationProvider: BaseApiLocationProvider
+    public class IpApiLocationProvider : BaseApiBaseLocationProvider
     {
-        public override string Name => "ip-api.com";
+        protected override string Name => "ip-api.com";
         protected override string BaseUrl => "http://ip-api.com/json/";
         protected override string EndPart => "";
         
@@ -20,7 +20,8 @@ namespace IpAnalyzerMap.ExternalProviders
             
             return new Location()
             {
-                Name = name,
+                City = jObject["city"].Value<string>(),
+                Country = jObject["country"].Value<string>(),
                 Latitude = jObject["lat"].Value<double>(),
                 Longitude = jObject["lon"].Value<double>()
             };

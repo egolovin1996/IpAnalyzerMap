@@ -25,7 +25,7 @@ export class TableMap extends Component {
             
             this.setState({
                 locations: oldLocations.filter(
-                    item => item.providerName !== location.providerName
+                    item => item.provider !== location.provider
                 )
             });
         }
@@ -52,12 +52,12 @@ export class TableMap extends Component {
                             {this.props.locations.map(location => (
                                 <tr
                                     style={{ cursor: "pointer" }}
-                                    key={location.providerName}
+                                    key={location.provider}
                                     onClick={() => this.handleClick(location)}
                                 >
                                     <th scope="row">{location.isActive?"+":""}</th>
-                                    <td>{location.providerName}</td>
-                                    <td>{location.location.name}</td>
+                                    <td>{location.provider}</td>
+                                    <td>{`${location.city}(${location.country})`}</td>
                                 </tr>
                             ))}
                             </tbody>

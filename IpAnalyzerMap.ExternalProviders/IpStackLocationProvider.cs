@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using IpAnalyzerMap.ExternalProviders.Base;
 using IpAnalyzerMap.ExternalProviders.Models;
 using Newtonsoft.Json.Linq;
 
 namespace IpAnalyzerMap.ExternalProviders
 {
-    public class IpStackLocationProvider : BaseApiLocationProvider
+    public class IpStackLocationProvider : BaseApiBaseLocationProvider
     {
-        public override string Name => "ipstack.com";
+        protected override string Name => "ipstack.com";
 
         protected override string BaseUrl => "http://api.ipstack.com/";
 
@@ -22,7 +19,8 @@ namespace IpAnalyzerMap.ExternalProviders
         {
             return new Location()
             {
-                Name = jObject["city"].Value<string>() + "("+ jObject["country_name"].Value<string>() + ")",
+                City = jObject["city"].Value<string>(),
+                Country = jObject["country_name"].Value<string>(),
                 Latitude = jObject["latitude"].Value<double>(),
                 Longitude = jObject["longitude"].Value<double>()
             };

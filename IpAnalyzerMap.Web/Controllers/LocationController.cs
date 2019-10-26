@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IpAnalyzerMap.ExternalProviders;
-using IpAnalyzerMap.ExternalProviders.Interfaces;
+using IpAnalyzerMap.ExternalProviders.Base;
 using IpAnalyzerMap.ExternalProviders.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +18,9 @@ namespace IpAnalyzerMap.Web.Controllers
         }
 
         [HttpGet("api/location/getAllLocations/{ipAddress}")]
-        public async Task<object[]> GetAllLocations(string ipAddress)
+        public async Task<IEnumerable<Location>> GetAllLocations(string ipAddress)
         {
-            var providers = new List<ILocationProvider>
+            var providers = new List<BaseLocationProvider>
             {
                 new IpStackLocationProvider(_httpClientFactory.CreateClient()),
                 new IpInfoLocationProvider(_httpClientFactory.CreateClient()),
@@ -31,35 +29,25 @@ namespace IpAnalyzerMap.Web.Controllers
                 new IpApiLocationProvider(_httpClientFactory.CreateClient()),
                 new IpGeolocationLocationProvider(_httpClientFactory.CreateClient()),
                 new IpDataLocationProvider(_httpClientFactory.CreateClient()),
-                new IpGeoLocationIOLocationProvider(),
+                new IpGeoLocationIoLocationProvider(),
                 new IpIfyLocationProvider(_httpClientFactory.CreateClient()),
                 new IpGeolocationApiLocationProvider(_httpClientFactory.CreateClient()),
             };
-            var result = new List<object>();
+            var result = new List<Location>();
 
             foreach (var provider in providers)
             {
-                Location location = null;
                 try
                 {
-                    location = await provider.GetLocationByIp(ipAddress);
+                    result.Add(await provider.GetLocationByIp(ipAddress));
                 }
-                catch (Exception e)
+                catch
                 {
-                    location = new Location()
-                    {
-                        Name = "Not found"
-                    };
+                  //ignore
                 }
-
-                result.Add(new
-                {
-                    ProviderName = provider.Name,
-                    Location = location
-                });
             }
 
-            return result.ToArray();
+            return result;
         }
     }
 }
