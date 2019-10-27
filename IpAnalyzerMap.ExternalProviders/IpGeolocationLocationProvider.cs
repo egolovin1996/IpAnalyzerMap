@@ -17,7 +17,7 @@ namespace IpAnalyzerMap.ExternalProviders
             var location = jObject["coords"].Value<string>().Split(',');
             return new Location()
             {
-                City = jObject["city"].Value<string>(),
+                City = jObject["city"]?.Value<string>(),
                 Country = jObject["country"].Value<string>(),
                 Latitude = double.Parse(location[0], System.Globalization.CultureInfo.InvariantCulture),
                 Longitude = double.Parse(location[1], System.Globalization.CultureInfo.InvariantCulture)

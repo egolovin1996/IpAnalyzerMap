@@ -11,6 +11,7 @@ namespace IpAnalyzerMap.Web.Controllers
     public class LocationController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private static IpApiLocationProvider t1 = null;
 
         public LocationController(IHttpClientFactory httpClientFactory)
         {
@@ -39,11 +40,11 @@ namespace IpAnalyzerMap.Web.Controllers
             {
                 try
                 {
-                    result.Add(await provider.GetLocationByIp(ipAddress));
+                    result.Add(await provider.GetLocationByIp(ipAddress.Trim()));
                 }
                 catch
                 {
-                  //ignore
+                    //ignore
                 }
             }
 

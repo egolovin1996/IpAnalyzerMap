@@ -29,6 +29,7 @@ export class Map extends Component {
                 <TileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                 {this.props.locations.map(location => (
                     <Marker
+                        color={"red"}
                         key={location.provider}
                         position={[location.latitude, location.longitude]}
                     >

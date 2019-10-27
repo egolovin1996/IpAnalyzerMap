@@ -15,9 +15,6 @@ namespace IpAnalyzerMap.ExternalProviders
         
         protected override Location GetLocationFromJson(JObject jObject)
         {
-            var name = $"Country: {jObject["country"].Value<string>()}," +
-                       $" City: {jObject["city"].Value<string>()}";
-            
             return new Location()
             {
                 City = jObject["city"].Value<string>(),

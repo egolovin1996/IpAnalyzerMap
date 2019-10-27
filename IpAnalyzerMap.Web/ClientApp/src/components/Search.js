@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { TableMap } from "./TableMap"
+import { TableMap } from "./TableMap";
+import Loader from "react-loader-spinner";
 
 export class Search extends Component {
     static displayName = Search.name;
@@ -34,11 +35,17 @@ export class Search extends Component {
     }
 
     render() {
-        console.log("render");
         let contents = this.state.loading ? (
-            <p>
-                <em>Loading...</em>
-            </p>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minHeight: "80vh"
+                }}
+            >
+                <Loader type="ThreeDots" color="black" height={80} width={80}/>
+            </div>
         ) : (
             Search.renderLocationsTable(this.state.locations)
         );
@@ -47,7 +54,6 @@ export class Search extends Component {
     }
 
     async getLocation() {
-        console.log("load:" + this.props.match.params.ip);
         const ipAddress = this.props.match.params.ip || "8.8.8.8";
         const response = await fetch("api/location/getAllLocations/" + ipAddress);
         const data = await response.json();

@@ -57,7 +57,7 @@ export class TableMap extends Component {
                                 >
                                     <th scope="row">{location.isActive?"+":""}</th>
                                     <td>{location.provider}</td>
-                                    <td>{`${location.city}(${location.country})`}</td>
+                                    <td>{`${location.country}(${location.city || "Не определен"})`}</td>
                                 </tr>
                             ))}
                             </tbody>
