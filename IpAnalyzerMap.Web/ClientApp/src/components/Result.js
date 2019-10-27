@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     Alert,
     Badge,
-    Button,
     Col,
     Collapse,
     Container,
@@ -28,6 +27,7 @@ export class Result extends Component {
         
         this.state = {
             collapsed: false,
+            probable: "",
             locations: [],
             loading: true,
             color: colors[colorNumber]
@@ -51,7 +51,7 @@ export class Result extends Component {
         let contents = this.state.loading ? (
             <Container>
                 <Row>
-                    <Col>Загрузка данных для ip адреса: {this.props.ip}</Col>
+                    <Col>Загрузка данных для ip адреса: <b>{this.props.ip}</b></Col>
                     <Col sm={{ offset: 1 }}>
                         <Loader type="ThreeDots" color="black" height={20} width={40} />
                     </Col>
@@ -61,7 +61,7 @@ export class Result extends Component {
             <div>
                 <Container>
                     <Row>
-                        <Col>Ip адрес: {this.props.ip}</Col>
+                        <Col>Ip адрес: <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b></Col>
                         <Col sm={{ offset: 1 }}>
                             <Link to={`map/${this.props.ip}`}>
                                 <Badge className="mr-1" color="success">
@@ -91,7 +91,32 @@ export class Result extends Component {
     async getLocation() {
         const ipAddress = this.props.ip;
         const response = await fetch("api/location/getAllLocations/" + ipAddress);
-        const data = await response.json();
-        this.setState({ locations: data, loading: false });
+        const locations = await response.json();
+        const probable = this.getProbable(locations);
+        this.setState({ probable, locations, loading: false });
+    }
+    
+    getProbable(data){
+        const dict = {};
+        data.forEach(item => {
+            if(dict[item.city]){
+                dict[item.city]++;
+            }else{
+                dict[item.city] = 1;
+            }
+        });
+        
+        console.log(dict);
+
+        let max = 0;
+        let result = "";
+        for (let key in dict){
+            if(dict[key] > max){
+                max = dict[key];
+                result = key;
+            }
+        }
+        
+        return result;
     }
 }
