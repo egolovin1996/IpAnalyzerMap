@@ -17,7 +17,7 @@ export class Map extends Component {
             <LeafletMap
                 center={[avrLat, avrLong]}
                 zoom={2}
-                maxZoom={12}
+                maxZoom={14}
                 attributionControl={true}
                 zoomControl={true}
                 doubleClickZoom={true}

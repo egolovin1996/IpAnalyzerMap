@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IpAnalyzerMap.ExternalProviders;
@@ -11,11 +12,17 @@ namespace IpAnalyzerMap.Web.Controllers
     public class LocationController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private static IpApiLocationProvider t1 = null;
 
         public LocationController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+        }
+
+        [HttpGet("api/location/getScanResult/{ipAddress}")]
+        public async Task<ScanResult> GetScanResult(string ipAddress)
+        {
+            var provider = new ShodanLocationProvider(_httpClientFactory.CreateClient());
+            return await provider.GetScanResult(ipAddress);
         }
 
         [HttpGet("api/location/getAllLocations/{ipAddress}")]

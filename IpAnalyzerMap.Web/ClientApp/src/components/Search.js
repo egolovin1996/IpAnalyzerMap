@@ -7,7 +7,8 @@ export class Search extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { locations: [], loading: true };
+        
+        this.state = { locations: [], scan: null, loading: true };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,10 +27,12 @@ export class Search extends Component {
         }
     }
 
-    static renderLocationsTable(locations) {
+    static renderLocationsTable(locations, ip, scan) {
         return (
             <TableMap 
                 locations = {locations}
+                ip = {ip}
+                scan = {scan}
             />
         );
     }
@@ -47,7 +50,7 @@ export class Search extends Component {
                 <Loader type="ThreeDots" color="black" height={80} width={80}/>
             </div>
         ) : (
-            Search.renderLocationsTable(this.state.locations)
+            Search.renderLocationsTable(this.state.locations, this.props.match.params.ip || "8.8.8.8", this.state.scan)
         );
 
         return <div>{contents}</div>;
@@ -55,8 +58,13 @@ export class Search extends Component {
 
     async getLocation() {
         const ipAddress = this.props.match.params.ip || "8.8.8.8";
-        const response = await fetch("api/location/getAllLocations/" + ipAddress);
-        const data = await response.json();
-        this.setState({ locations: data, loading: false });
+        const [locationsResponse, scanResponse ] = [
+            await fetch(`api/location/getAllLocations/${ipAddress}`), 
+            await fetch(`api/location/getScanResult/${ipAddress}`)
+        ];
+        const locations = await locationsResponse.json();
+        const scan = await scanResponse.json();
+        
+        this.setState({ locations, scan, loading: false });
     }
 }

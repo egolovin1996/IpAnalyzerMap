@@ -61,7 +61,9 @@ export class Result extends Component {
             <div>
                 <Container>
                     <Row>
-                        <Col>Ip адрес: <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b></Col>
+                        <Col>Ip адрес: 
+                            <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b>
+                        </Col>
                         <Col sm={{ offset: 1 }}>
                             <Link to={`map/${this.props.ip}`}>
                                 <Badge className="mr-1" color="success">
@@ -90,7 +92,7 @@ export class Result extends Component {
 
     async getLocation() {
         const ipAddress = this.props.ip;
-        const response = await fetch("api/location/getAllLocations/" + ipAddress);
+        const response = await fetch(`api/location/getAllLocations/${ipAddress}`);
         const locations = await response.json();
         const probable = this.getProbable(locations);
         this.setState({ probable, locations, loading: false });
@@ -99,14 +101,14 @@ export class Result extends Component {
     getProbable(data){
         const dict = {};
         data.forEach(item => {
+            if(!item.city) return;
+            
             if(dict[item.city]){
                 dict[item.city]++;
             }else{
                 dict[item.city] = 1;
             }
         });
-        
-        console.log(dict);
 
         let max = 0;
         let result = "";
