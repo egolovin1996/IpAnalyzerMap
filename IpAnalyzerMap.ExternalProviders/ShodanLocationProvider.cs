@@ -30,7 +30,7 @@ namespace IpAnalyzerMap.ExternalProviders
             };
         }
 
-        public async Task<ScanResult> GetScanResult(string ipAddress)
+        public async Task<ScanResult> GetScanResult(string ipAddress, Func<string, string> getLinkAction)
         {
             var result = new ScanResult();
             try
@@ -41,7 +41,17 @@ namespace IpAnalyzerMap.ExternalProviders
                 result.LastUpdateDate = jObject["last_update"]?.Value<string>();
                 result.Tags = jObject["tags"]?.Values<string>().ToList();
                 result.Ports = jObject["ports"]?.Values<int>().ToList();
-                result.Vulnerabilities = jObject["vulns"]?.Values<string>().ToList();
+
+                var t = getLinkAction("CVE-2014-0231");
+                
+                var vulnerabilities = jObject["vulns"]?.Values<string>().ToList();
+                if (vulnerabilities != null)
+                {
+                    foreach (var name in vulnerabilities)
+                    {
+                        result.Vulnerabilities.Add($"{name},{getLinkAction(name)}");
+                    }
+                } 
             }
             catch
             {

@@ -71,7 +71,7 @@ export class NavMenu extends Component {
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="multi">
+                    <NavLink tag={Link} className="text-dark" to="/multi">
                       Множественный поиск
                     </NavLink>
                   </NavItem>

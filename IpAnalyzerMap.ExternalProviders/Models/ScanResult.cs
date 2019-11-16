@@ -7,9 +7,9 @@ namespace IpAnalyzerMap.ExternalProviders.Models
         public string Isp { get; set; }
         public string Organization { get; set; }
         public string LastUpdateDate { get; set; }
-        public IEnumerable<string> Tags { get; set; }
-        public IEnumerable<int> Ports { get; set; }
-        public IEnumerable<string> Vulnerabilities { get; set; }
+        public List<string> Tags { get; set; }
+        public List<int> Ports { get; set; }
+        public List<string> Vulnerabilities { get; set; }
 
         public ScanResult()
         {

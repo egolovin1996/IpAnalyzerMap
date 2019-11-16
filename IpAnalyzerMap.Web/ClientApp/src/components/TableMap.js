@@ -79,7 +79,37 @@ export class TableMap extends Component {
                                         </tr>
                                         <tr>
                                             <td>Возможные уязвимости:</td>
-                                            <td>{this.props.scan.vulnerabilities && this.props.scan.vulnerabilities.length ? this.props.scan.vulnerabilities.join(", ") : "Не обнаружены"}</td>
+                                            <td>
+                                                {
+                                                    this.props.scan.vulnerabilities && this.props.scan.vulnerabilities.length 
+                                                        ? this.props.scan.vulnerabilities.map(item => {
+                                                            const parts = item.split(",");
+                                                            const isFirst = item === this.props.scan.vulnerabilities[0];
+                                                            return (
+                                                                <span>
+                                                                    {isFirst ? "" : ", "}
+                                                                    {parts[0]}
+                                                                    {parts[1] 
+                                                                        ? 
+                                                                        (
+                                                                            <span>
+                                                                                {" ("}
+                                                                                <a 
+                                                                                    target="_blank" 
+                                                                                    rel="noopener noreferrer" 
+                                                                                    href={`http://www.bdu.fstec.ru/vul/${parts[1]}`}>BDU:{parts[1]}
+                                                                                </a>
+                                                                                {")"}
+                                                                            </span>
+                                                                        ) 
+                                                                        : ""
+                                                                    }
+                                                                </span>
+                                                            );
+                                                        })
+                                                        : "Не обнаружены"
+                                                }
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </Table>

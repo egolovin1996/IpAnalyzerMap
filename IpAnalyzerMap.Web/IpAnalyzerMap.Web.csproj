@@ -30,6 +30,11 @@
       <ProjectReference Include="..\IpAnalyzerMap.ExternalProviders\IpAnalyzerMap.ExternalProviders.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\data.txt" />
+      <EmbeddedResource Include="Resources\data.txt" />
+    </ItemGroup>
+
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
