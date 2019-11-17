@@ -88,13 +88,18 @@ export class TableMap extends Component {
                                                             return (
                                                                 <span>
                                                                     {isFirst ? "" : ", "}
-                                                                    {parts[0]}
+                                                                    {<a
+                                                                        style={{color: 'black'}}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        href={`https://nvd.nist.gov/vuln/detail/${parts[0]}`}>{parts[0]}
+                                                                    </a>}
                                                                     {parts[1] 
                                                                         ? 
                                                                         (
                                                                             <span>
                                                                                 {" ("}
-                                                                                <a 
+                                                                                <a
                                                                                     target="_blank" 
                                                                                     rel="noopener noreferrer" 
                                                                                     href={`http://www.bdu.fstec.ru/vul/${parts[1]}`}>BDU:{parts[1]}

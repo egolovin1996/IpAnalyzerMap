@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using IpAnalyzerMap.Web.Middleware;
 using IpAnalyzerMap.Web.Resources;
 using IpAnalyzerMap.Web.Resources.Interfaces;
@@ -15,6 +16,8 @@ namespace IpAnalyzerMap.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
         public IConfiguration Configuration { get; }
@@ -30,7 +33,7 @@ namespace IpAnalyzerMap.Web
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ICvesProvider cvesProvider)
         {
             if (env.IsDevelopment())
             {
@@ -41,6 +44,8 @@ namespace IpAnalyzerMap.Web
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            cvesProvider.LoadData().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

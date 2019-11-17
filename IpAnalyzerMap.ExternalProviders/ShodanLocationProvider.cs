@@ -41,8 +41,6 @@ namespace IpAnalyzerMap.ExternalProviders
                 result.LastUpdateDate = jObject["last_update"]?.Value<string>();
                 result.Tags = jObject["tags"]?.Values<string>().ToList();
                 result.Ports = jObject["ports"]?.Values<int>().ToList();
-
-                var t = getLinkAction("CVE-2014-0231");
                 
                 var vulnerabilities = jObject["vulns"]?.Values<string>().ToList();
                 if (vulnerabilities != null)

@@ -1,42 +1,74 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using ExcelDataReader;
 using IpAnalyzerMap.Web.Resources.Interfaces;
 
 namespace IpAnalyzerMap.Web.Resources
 {
     public class CvesProvider: ICvesProvider
     {
-        private const string ResourceName = "IpAnalyzerMap.Web.Resources.data.txt";
+        private const string ResourceUrl = "https://bdu.fstec.ru/documents/files/vullist.xlsx";
+        private const string ResourceName = "Resources/data.xlsx";
         private readonly List<(string Name, string Link)> _data;
+        private readonly HttpClient _client;
 
-        public CvesProvider()
+        public CvesProvider(IHttpClientFactory factory)
         {
+            _client = factory.CreateClient();
             _data = new List<(string Name, string Link)>();
-            
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName);
-            if(stream == null) return;
-            
-            using (stream)
+        }
+
+        public async Task LoadData()
+        {
+            try
             {
-                using var reader = new StreamReader(stream, Encoding.UTF8);
-                var line = reader.ReadLine();
-                while (line != null)
+                await using var webStream = await _client.GetStreamAsync(ResourceUrl );
+                await using var fileStream = new FileStream(ResourceName, FileMode.Create, FileAccess.Write);
+                webStream.CopyTo(fileStream);
+            }
+            catch
+            {
+                //ignore
+            }
+            
+            await using var stream = File.Open(ResourceName , FileMode.Open, FileAccess.Read);
+            using var reader = ExcelReaderFactory.CreateReader(stream);
+            
+            // Skip first 3 rows with headers
+            reader.Read();
+            reader.Read();
+            reader.Read();
+            
+            while (reader.Read())
+            {
+                var name = reader.GetString(18);
+                var link = reader.GetString(0);
+                if (name != null && link != null)
                 {
-                    var parts = line.Split(';');
-                    _data.Add((parts[1], parts[0]));
-                    
-                    line = reader.ReadLine();
+                    _data.Add((reader.GetString(18), reader.GetString(0)));
                 }
             }
         }
         
         public string GetLink(string cveName)
         {
-            var result = _data.FirstOrDefault(c => c.Name.Contains(cveName)).Link;
-            return result?.Remove(0, 4);
+            try
+            {
+                var result = _data.FirstOrDefault(c => c.Name.Contains(cveName)).Link;
+                return result?.Remove(0, 4);
+            }
+            catch (Exception e)
+            {
+                var t = e;
+            }
+
+            return null;
         }
     }
 }
