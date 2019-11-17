@@ -22,16 +22,25 @@ namespace IpAnalyzerMap.Web.Controllers
             _cvesProvider = cvesProvider;
         }
 
-        [HttpGet("api/location/getScanResult/{ipAddress}")]
-        public async Task<ScanResult> GetScanResult(string ipAddress)
+        [HttpGet("api/location/getScanResult/{query}")]
+        public async Task<ScanResult> GetScanResult(string query)
         {
+            var ipAddress = query.Count(c => c == '.') == 3
+                ? query
+                : System.Net.Dns.GetHostAddresses(query).First().ToString();
+            
             var provider = new ShodanLocationProvider(_httpClientFactory.CreateClient());
             return await provider.GetScanResult(ipAddress, _cvesProvider.GetLink);
         }
 
-        [HttpGet("api/location/getAllLocations/{ipAddress}")]
-        public async Task<IEnumerable<Location>> GetAllLocations(string ipAddress)
+        [HttpGet("api/location/getAllLocations/{query}")]
+        public async Task<IEnumerable<Location>> GetAllLocations(string query)
         {
+            var ipAddress = query.Count(c => c == '.') == 3
+                ? query
+                : System.Net.Dns.GetHostAddresses(query).First().ToString();
+            
+            
             var providers = new List<BaseLocationProvider>
             {
                 new IpStackLocationProvider(_httpClientFactory.CreateClient()),

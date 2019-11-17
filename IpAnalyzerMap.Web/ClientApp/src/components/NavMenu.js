@@ -37,7 +37,23 @@ export class NavMenu extends Component {
   }
 
   handleSubmit(event) {
-    history.push("/map/" + this.state.ipAddress);
+    let ipAddress = this.state.ipAddress;
+    
+    const https = "https://";
+    if(ipAddress.startsWith(https)){
+      ipAddress = this.state.ipAddress.substr(https.length);
+      this.setState({ipAddress})
+    }
+    
+    const http = "http://";
+    if(ipAddress.startsWith(http)){
+      ipAddress = this.state.ipAddress.substr(http.length);
+      this.setState({ipAddress})
+    }
+    
+    console.log(this.state);
+    
+    history.push("/map/" + ipAddress);
     event.preventDefault();
   }
 

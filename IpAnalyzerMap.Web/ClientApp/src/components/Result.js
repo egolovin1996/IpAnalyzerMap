@@ -61,11 +61,9 @@ export class Result extends Component {
             <div>
                 <Container>
                     <Row>
-                        <Col>Ip адрес: 
-                            <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b>
-                        </Col>
+                        <Col>Ip адрес: <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b></Col>
                         <Col sm={{ offset: 1 }}>
-                            <Link to={`map/${this.props.ip}`}>
+                            <Link target="_blank" to={`map/${this.props.ip}`}>
                                 <Badge className="mr-1" color="success">
                                     Показать на карте
                                 </Badge>
