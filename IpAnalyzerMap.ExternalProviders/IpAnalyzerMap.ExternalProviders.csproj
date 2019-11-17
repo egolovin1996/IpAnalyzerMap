@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="IPGeolocation.IPGeolocation" Version="1.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="VirusTotalNet" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

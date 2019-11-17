@@ -21,6 +21,8 @@
         <Content Include="ClientApp\src\components\Map.js" />
         <Content Include="ClientApp\src\components\MultiSearch.js" />
         <Content Include="ClientApp\src\components\Result.js" />
+        <Content Include="ClientApp\src\components\ScanResult.js" />
+        <Content Include="ClientApp\src\components\ScanUrl.js" />
         <Content Include="ClientApp\src\components\SimpleTable.js" />
         <Content Include="ClientApp\src\components\TableMap.js" />
         <Content Include="ClientApp\src\history.js" />
