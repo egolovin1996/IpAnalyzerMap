@@ -82,13 +82,8 @@ export class NavMenu extends Component {
               >
                 <ul className="navbar-nav flex-grow">
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/url">
-                      Сканирование файлов
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/url">
-                      Сканирование URL
+                    <NavLink tag={Link} className="text-dark" to="/list">
+                      Инвентаризация
                     </NavLink>
                   </NavItem>
                   <NavItem>

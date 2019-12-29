@@ -99,11 +99,11 @@ export class TableMap extends Component {
                                                                         (
                                                                             <span>
                                                                                 {" ("}
-                                                                                <a33
+                                                                                <a
                                                                                     target="_blank" 
                                                                                     rel="noopener noreferrer" 
                                                                                     href={`http://www.bdu.fstec.ru/vul/${parts[1]}`}>BDU:{parts[1]}
-                                                                                </a33>
+                                                                                </a>
                                                                                 {")"}
                                                                             </span>
                                                                         ) 

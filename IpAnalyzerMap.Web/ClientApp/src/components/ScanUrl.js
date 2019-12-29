@@ -53,7 +53,7 @@ export class ScanUrl extends Component {
                         <ScanResult scans={this.state.result.scans}/>
                         ) : ""
                 }
-            </div>
+            </div> 
         );
     }
 

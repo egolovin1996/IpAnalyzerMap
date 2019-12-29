@@ -8,7 +8,7 @@ namespace IpAnalyzerMap.ExternalProviders.Base
         protected abstract string Name { get; }
 
         public async Task<Location> GetLocationByIp(string ipAddress)
-        {
+        { 
             var result = await GetLocationByIpInner(ipAddress);
             result.Provider = Name;
 
