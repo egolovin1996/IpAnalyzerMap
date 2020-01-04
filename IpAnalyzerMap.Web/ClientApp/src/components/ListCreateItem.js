@@ -17,7 +17,7 @@ export class ListCreateItem extends Component{
 
     handleCreate = (e) => {
         e.preventDefault();
-
+        
         const { name, range } = this.state;
         if (name && range) {
             this.props.add({
@@ -50,6 +50,7 @@ export class ListCreateItem extends Component{
                     <button className="btn btn-sm fa fa-floppy-o"
                             aria-hidden="true"
                             onClick={this.handleCreate}>
+                        ok
                     </button>
                     <button className="btn btn-sm"
                             aria-hidden="true"

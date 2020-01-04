@@ -13,11 +13,16 @@ export class List extends Component {
         };
     }
 
+    componentDidMount() {
+        return this.getList();
+    }
+
     addListCreateItem = () => {
         const { newItems } = this.state;
         const item = <ListCreateItem key={Date.now()}
                                      remove={() => this.removeListCreateItem(item)}
                                      add={async (newItem)  => {
+                                         this.removeListCreateItem(item);
                                          await this.addItem(newItem);
                                          await this.getList();
                                      }}/>;
@@ -26,7 +31,6 @@ export class List extends Component {
     };
 
     removeListCreateItem = (item) => {
-        console.log(item);
         const { newItems } = this.state;
         const result = newItems.filter((newItem) => newItem.key !== item.key);
         this.setState({ newItems: result });
@@ -55,7 +59,7 @@ export class List extends Component {
                         <tr key={item.name}>
                             <td>{item.name}</td>
                             <td>{item.range}</td>
-                            <td>Проверить</td>
+                            <td></td>
                         </tr>
                     ))}
                     {
@@ -80,8 +84,10 @@ export class List extends Component {
     }
 
     async getList() {
-        const serverResult = await fetch(`api/list/list/`);
+        const serverResult = await fetch(`api/list/all`);
+        
         const loadedResult = await serverResult.json();
+        console.log(loadedResult);
 
         this.setState({ list: loadedResult, isLoading: false});
     }

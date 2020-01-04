@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using IpAnalyzerMap.Web.Middleware;
 using IpAnalyzerMap.Web.Resources;
 using IpAnalyzerMap.Web.Resources.Interfaces;
+using IpAnalyzerMap.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -31,6 +32,8 @@ namespace IpAnalyzerMap.Web
             services.AddSingleton<ICvesProvider, CvesProvider>();
 
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+            services.AddTransient<IListService, ListService>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ICvesProvider cvesProvider)
