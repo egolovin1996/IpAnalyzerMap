@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using ExcelDataReader;
-using IpAnalyzerMap.Web.Resources.Interfaces;
+using IpAnalyzerMap.Web.Services.Interfaces;
 
-namespace IpAnalyzerMap.Web.Resources
+namespace IpAnalyzerMap.Web.Services
 {
     public class CvesProvider: ICvesProvider
     {
-        private const string ResourceUrl = "https://bdu.fstec.ru/documents/files/vullist.xlsx";
+        private const string ResourceUrl = "https://bdu.fstec.ru/files/documents/vullist.xlsx";
         private const string ResourceName = "Resources/data.xlsx";
         private readonly List<(string Name, string Link)> _data;
         private readonly HttpClient _client;
@@ -47,8 +45,8 @@ namespace IpAnalyzerMap.Web.Resources
             
             while (reader.Read())
             {
-                var name = reader.GetString(18);
                 var link = reader.GetString(0);
+                var name = reader.GetString(18);
                 if (name != null && link != null)
                 {
                     _data.Add((reader.GetString(18), reader.GetString(0)));

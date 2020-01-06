@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using IpAnalyzerMap.ExternalProviders;
 using IpAnalyzerMap.ExternalProviders.Base;
 using IpAnalyzerMap.ExternalProviders.Models;
-using IpAnalyzerMap.Web.Resources.Interfaces;
+using IpAnalyzerMap.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IpAnalyzerMap.Web.Controllers

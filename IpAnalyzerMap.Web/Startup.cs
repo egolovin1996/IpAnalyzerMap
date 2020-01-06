@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using IpAnalyzerMap.Web.Middleware;
-using IpAnalyzerMap.Web.Resources;
-using IpAnalyzerMap.Web.Resources.Interfaces;
 using IpAnalyzerMap.Web.Services;
+using IpAnalyzerMap.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;

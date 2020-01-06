@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace IpAnalyzerMap.Web.Resources.Interfaces
+namespace IpAnalyzerMap.Web.Services.Interfaces
 {
     public interface ICvesProvider
     {
