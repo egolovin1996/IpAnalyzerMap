@@ -60,7 +60,12 @@ export class List extends Component {
                     </thead>
                     <tbody>
                     {this.state.list.map(item => (
-                        <tr key={item.name}>
+                        <tr className={
+                            (this.state.activeItem 
+                                && this.state.activeItem.name === item.name 
+                                && this.state.activeItem.range === item.range)
+                            ? "table-active" 
+                            : ""} key={item.name}>
                             <td>{item.name}</td>
                             <td>{item.range}</td>
                             <td className="text-right">

@@ -95,6 +95,7 @@ export class MultiSearch extends Component {
                             {this.state.addresses.map(address => {
                                 return (
                                     <Result
+                                        key={address}
                                         ip={address}
                                     />
                                 );
