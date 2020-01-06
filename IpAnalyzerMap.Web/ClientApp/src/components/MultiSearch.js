@@ -5,11 +5,11 @@ import {Result} from "./Result";
 export class MultiSearch extends Component {
     constructor(props) {
         super(props);
-
+        
         this.state = {
             request: "",
             addresses: [],
-            isWorking: false
+            isWorking: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -22,55 +22,74 @@ export class MultiSearch extends Component {
 
     handleSubmit(event) {
         if (this.state.isWorking) return;
-
-        const inputResults = this.state.request.split(",");
-        const addresses = [];
         
-        inputResults.forEach(result => {
-            if(!result.includes('-')){
-                addresses.push(result);
-                return;
-            }
-            
-            const rangeParts = result.split('-');
-            console.log(rangeParts);
-            const startIp = MultiSearch.ipToNumber(rangeParts[0]);
-            console.log(startIp);
-            const endIp = MultiSearch.ipToNumber(rangeParts[1]);
-            console.log(endIp);
-            if(startIp > endIp) return;
-            
-            for (let i = startIp; i < endIp + 1; i++){
-                console.log(MultiSearch.NumberToIp(i));
-                addresses.push(MultiSearch.NumberToIp(i));
-            }
-            
-        });
+        const addresses = this.getAddresses(this.state.request);
         
         this.setState({
             addresses: addresses,
             isWorking: true
         });
-
+        
         event.preventDefault();
+    }
+    
+    getAddresses(request){
+        const inputResults = request.split(",");
+        const result = [];
+
+        inputResults.forEach(item => {
+            if(!item.includes('-')){
+                result.push(item);
+                return;
+            }
+
+            const rangeParts = item.split('-');
+            const startIp = MultiSearch.ipToNumber(rangeParts[0]);
+            const endIp = MultiSearch.ipToNumber(rangeParts[1]);
+            if(startIp > endIp) return;
+
+            for (let i = startIp; i < endIp + 1; i++){
+                result.push(MultiSearch.NumberToIp(i));
+            }
+
+        });
+        
+        return result;
     }
 
     render() {
+        if(this.props.range){
+            const request = this.props.range;
+            const addresses = this.getAddresses(request)
+
+            this.state = {
+                request,
+                addresses,
+                isWorking: true,
+            };
+        }
+        
         return (
             <div>
                 <Form onSubmit={this.handleSubmit}>
-                    <FormGroup>
-                        <Label for="exampleText">
-                            Множественный поиск. Разделитель запятая.
-                        </Label>
-                        <Input
-                            type="textarea"
-                            rows="5"
-                            value={this.state.request}
-                            onChange={this.handleChange}
-                            placeholder="8.8.8.8, 8.8.8.5-8.8.8.6, 8.8.8.8"
-                        />
-                    </FormGroup>
+                    {this.props.range 
+                        ? ("") 
+                        : (
+                            <FormGroup>
+                                <h4>Множественный поиск</h4>
+                                <Label for="exampleText">
+                                    Разделитель запятая
+                                </Label>
+                                <Input
+                                    type="textarea"
+                                    rows="5"
+                                    value={this.state.request}
+                                    onChange={this.handleChange}
+                                    placeholder="8.8.8.8, 8.8.8.5-8.8.8.6, 8.8.8.8"
+                                />
+                            </FormGroup>
+                        )
+                    }
                     {this.state.isWorking ? (
                         <div>
                             {this.state.addresses.map(address => {

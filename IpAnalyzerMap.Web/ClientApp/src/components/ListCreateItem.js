@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faSave } from '@fortawesome/free-solid-svg-icons'
 
 export class ListCreateItem extends Component{
     constructor(props){
@@ -47,15 +49,16 @@ export class ListCreateItem extends Component{
                            onChange={this.handleChange} />
                 </td>
                 <td className="text-right">
+                    
                     <button className="btn btn-sm fa fa-floppy-o"
                             aria-hidden="true"
                             onClick={this.handleCreate}>
-                        ok
+                        <FontAwesomeIcon icon={faSave} size="lg" color="green"/>
                     </button>
                     <button className="btn btn-sm"
                             aria-hidden="true"
                             onClick={this.props.remove}>
-                        x
+                        <FontAwesomeIcon icon={faTimes} size="lg" color="red"/>
                     </button>
                 </td>
             </tr>

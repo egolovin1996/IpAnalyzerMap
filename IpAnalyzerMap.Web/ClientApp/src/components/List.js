@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Table } from "reactstrap";
-import { ListCreateItem } from "./ListCreateItem"
+import { ListCreateItem } from "./ListCreateItem";
+import { MultiSearch } from "./MultiSearch"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 export class List extends Component {
     constructor(props) {
@@ -10,6 +13,7 @@ export class List extends Component {
             list: [],
             newItems: [],
             isLoading: false,
+            activeItem: null,
         };
     }
 
@@ -41,15 +45,15 @@ export class List extends Component {
         return(
             <div>
                 <div className="d-flex justify-content-between pb-2 mb-1">
-                    <h4>Список</h4>
+                    <h4>Список адресов</h4>
                     <button className="btn btn-outline-dark" onClick={this.addListCreateItem}>
-                        +
+                        <FontAwesomeIcon icon={faPlus}/>
                     </button>
                 </div>
                 <Table>
                     <thead>
                     <tr>
-                        <th>Наименование</th>
+                        <th style={{width: "25vw"}}>Наименование</th>
                         <th>Пул адресов</th>
                         <th>{""}</th>
                     </tr>
@@ -59,7 +63,21 @@ export class List extends Component {
                         <tr key={item.name}>
                             <td>{item.name}</td>
                             <td>{item.range}</td>
-                            <td></td>
+                            <td className="text-right">
+                                <button className="btn btn-sm fa fa-floppy-o"
+                                        aria-hidden="true"
+                                        onClick={() => this.setState({activeItem: item})}>
+                                    <FontAwesomeIcon icon={faSearch} size="lg" color="#337ab7"/>
+                                </button>
+                                <button className="btn btn-sm"
+                                        aria-hidden="true"
+                                        onClick={async () => {
+                                            await this.removeItem(item);
+                                            await this.getList();
+                                        }}>
+                                    <FontAwesomeIcon icon={faTimes} size="lg" color="red"/>
+                                </button>
+                            </td>
                         </tr>
                     ))}
                     {
@@ -69,6 +87,14 @@ export class List extends Component {
                     }
                     </tbody>
                 </Table>
+                {this.state.activeItem
+                    ? (
+                        <MultiSearch range={this.state.activeItem.range}/>
+                    ) 
+                    : 
+                    ("")
+                    
+                }
             </div>
         )
     }
@@ -79,7 +105,7 @@ export class List extends Component {
     }
 
     async removeItem(item) {
-        await fetch(`api/list/remove/${item.name}`, {method: "POST"});
+        await fetch(`api/list/remove/${item.name}/${item.range}`, {method: "POST"});
         this.setState({ isLoading: true});
     }
 

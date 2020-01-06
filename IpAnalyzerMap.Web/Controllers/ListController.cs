@@ -38,10 +38,10 @@ namespace IpAnalyzerMap.Web.Controllers
            await _listService.Add(name, range);
         }
         
-        [HttpPost("api/list/remove/{name}")]
-        public async void Add(string name)
+        [HttpPost("api/list/remove/{name}/{range}")]
+        public async void Remove(string name, string range)
         {
-            await _listService.Remove(name);
+            await _listService.Remove(name, range);
         }
     }
 }

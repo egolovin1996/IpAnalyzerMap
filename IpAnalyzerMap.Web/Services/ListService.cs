@@ -25,13 +25,15 @@ namespace IpAnalyzerMap.Web.Services
             await WriteToFileAsync(allExisting);
         }
 
-        public async Task Remove(string name)
+        public async Task Remove(string name, string range)
         {
             var allExisting = await ReadFromFileAsync();
-            var itemToRemove = allExisting.FirstOrDefault(i => i.Name.Equals(name));
+            var itemToRemove = allExisting.FirstOrDefault(i 
+                => i.Name.Equals(name) && i.Range.Equals(range));
             if (!string.IsNullOrEmpty(itemToRemove.Name))
             {
                 allExisting.Remove(itemToRemove);
+                await WriteToFileAsync(allExisting);
             }
         }
 

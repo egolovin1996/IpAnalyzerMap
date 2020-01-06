@@ -11,6 +11,8 @@ import {
     Table
 } from "reactstrap";
 import { Map } from "./Map";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 export class TableMap extends Component {
     constructor(props) {
@@ -145,7 +147,10 @@ export class TableMap extends Component {
                                     key={location.provider}
                                     onClick={() => this.handleClick(location)}
                                 >
-                                    <th scope="row">{location.isActive?"+":""}</th>
+                                    <th scope="row">{location.isActive
+                                        ?<FontAwesomeIcon icon={faCheck}/>
+                                        :<FontAwesomeIcon icon={faTimes}/>}
+                                    </th>
                                     <td>{location.provider}</td>
                                     <td>{`${location.country}(${location.city || "Не определен"})`}</td>
                                 </tr>

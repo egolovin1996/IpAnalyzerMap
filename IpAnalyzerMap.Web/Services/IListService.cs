@@ -9,6 +9,6 @@ namespace IpAnalyzerMap.Web.Services
         
         Task Add(string name, string range);
         
-        Task Remove(string name);
+        Task Remove(string name, string range);
     }
 }
