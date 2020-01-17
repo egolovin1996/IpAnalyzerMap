@@ -60,16 +60,20 @@ export class List extends Component {
                     </thead>
                     <tbody>
                     {this.state.list.map(item => (
-                        <tr key={item.name}>
+                        <tr
+                            className={this.state.activeItem !== null && item.name === this.state.activeItem.name ? "table-active" : ""}
+                            key={item.name}>
                             <td>{item.name}</td>
                             <td>{item.range}</td>
                             <td className="text-right">
                                 <button className="btn btn-sm fa fa-floppy-o"
+                                        style={{ "box-shadow": "none" }}
                                         aria-hidden="true"
                                         onClick={() => this.setState({activeItem: item})}>
                                     <FontAwesomeIcon icon={faSearch} size="lg" color="#337ab7"/>
                                 </button>
                                 <button className="btn btn-sm"
+                                        style= {{ "box-shadow": "none" }}
                                         aria-hidden="true"
                                         onClick={async () => {
                                             await this.removeItem(item);
