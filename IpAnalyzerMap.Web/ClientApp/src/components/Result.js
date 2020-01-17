@@ -24,11 +24,12 @@ export class Result extends Component {
         }
         
         let colorNumber = getRandomArbitrary(0, colors.length);
-        
+
         this.state = {
             collapsed: false,
             probable: "",
             locations: [],
+            scan: {},
             loading: true,
             color: colors[colorNumber]
         };
@@ -51,7 +52,9 @@ export class Result extends Component {
         let contents = this.state.loading ? (
             <Container>
                 <Row>
-                    <Col>Загрузка данных для ip адреса: <b>{this.props.ip}</b></Col>
+                    <Col>
+                        Загрузка данных для ip адреса: <b>{this.props.ip}</b>
+                    </Col>
                     <Col sm={{ offset: 1 }}>
                         <Loader type="ThreeDots" color="black" height={20} width={40} />
                     </Col>
@@ -61,7 +64,9 @@ export class Result extends Component {
             <div>
                 <Container>
                     <Row>
-                        <Col>Ip адрес: <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b></Col>
+                        <Col>
+                                Ip адрес: <b>{this.props.ip}</b> - наиболее вероятное местоположение: <b>{this.state.probable}</b>
+                        </Col>
                         <Col sm={{ offset: 1 }}>
                             <Link target="_blank" to={`map/${this.props.ip}`}>
                                 <Badge className="mr-1" color="success">
@@ -79,7 +84,54 @@ export class Result extends Component {
                         </Col>
                     </Row>
                 </Container>
-                <Collapse isOpen={this.state.collapsed}>
+                    <Collapse isOpen={this.state.collapsed}>
+                        <Container style={{ "margin-top": "10px", "margin-bottom": "10px" }}>
+                            <Row color={this.state.color}>
+                                <Col>
+                                    {"Уязвимости: "}
+
+                                    <b>
+                                        {this.state.scan.vulnerabilities &&
+                                            this.state.scan.vulnerabilities.length
+                                            ? this.state.scan.vulnerabilities.map(item => {
+                                                const parts = item.split(",");
+                                                const isFirst = item === this.state.scan.vulnerabilities[0];
+                                                return (
+                                                    <span>
+                                                        {isFirst ? "" : ", "}
+                                                        {
+                                                            <a
+                                                                style={{ color: "black" }}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                href={`https://nvd.nist.gov/vuln/detail/${parts[0]}`}
+                                                            >
+                                                                {parts[0]}
+                                                            </a>
+                                                        }
+                                                        {parts[1] ? (
+                                                            <span>
+                                                                {" ("}
+                                                                <a
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    href={`http://www.bdu.fstec.ru/vul/${parts[1]}`}
+                                                                >
+                                                                    BDU:{parts[1]}
+                                                                </a>
+                                                                {")"}
+                                                            </span>
+                                                        ) : (
+                                                                ""
+                                                            )}
+                                                    </span>
+                                                );
+                                            })
+                                            : "Не обнаружены"}
+                                    </b>
+                                </Col>
+                            </Row>
+                        </Container>
                     <SimpleTable locations={this.state.locations} />
                 </Collapse>
             </div>
@@ -90,10 +142,17 @@ export class Result extends Component {
 
     async getLocation() {
         const ipAddress = this.props.ip;
-        const response = await fetch(`api/location/getAllLocations/${ipAddress}`);
-        const locations = await response.json();
+        const [locationsResponse, scanResponse] = [
+            await fetch(`api/location/getAllLocations/${ipAddress}`),
+            await fetch(`api/location/getScanResult/${ipAddress}`)
+        ];
+
+        const locations = await locationsResponse.json();
         const probable = this.getProbable(locations);
-        this.setState({ probable, locations, loading: false });
+
+        const scan = await scanResponse.json();
+
+        this.setState({ probable, locations, scan, loading: false });
     }
     
     getProbable(data){
