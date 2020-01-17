@@ -5,7 +5,7 @@ export class ScanResult extends Component {
     render() {
         console.log(this.props.scans);
         return(
-            <Table>
+            <Table style={{ "margin-top": "20px"}} >
                 <thead>
                 <tr>
                     <th>Источник</th>
